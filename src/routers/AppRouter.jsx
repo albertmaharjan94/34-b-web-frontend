@@ -7,6 +7,8 @@ import MainLayout from '../layouts/MainLayout'
 import StateManage from '../pages/StateManage'
 import GuestRoute from './GuestRoute'
 import NormalUserRoute from './NormalUserRoute'
+import ProductManagement from '../pages/admin/ProductManagement'
+import AdminLayout from '../layouts/AdminLayout'
 
 export default function AppRouter() {
   return (
@@ -37,6 +39,12 @@ export default function AppRouter() {
 
           apply the route production in these routes
         */}
+        <Route element={<AdminLayout/>}>
+          <Route path='/admin/*'>
+            <Route path='products' element={<ProductManagement />}></Route>
+          </Route>
+        </Route>
+
 
       </Routes>
     </BrowserRouter>
