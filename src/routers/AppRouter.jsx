@@ -11,6 +11,8 @@ import ProductManagement from '../pages/admin/ProductManagement'
 import AdminLayout from '../layouts/AdminLayout'
 import CreateCategory from '../pages/admin/CreateCategory'
 import CategoryManagement from '../pages/admin/CategoryManagement'
+import ViewCategory from '../pages/admin/ViewCategory'
+import UpdateCategory from '../pages/admin/UpdateCategory'
 
 export default function AppRouter() {
   return (
@@ -46,6 +48,8 @@ export default function AppRouter() {
             <Route path='products' element={<ProductManagement />}></Route>
             
             <Route path='category' element={<CategoryManagement/>}></Route>
+            <Route path='category/:id' element={<ViewCategory/>}></Route>
+            <Route path='category/:id/edit' element={<UpdateCategory/>}></Route>
             <Route path='category/create' element={<CreateCategory/>}></Route>
           </Route>
         </Route>
