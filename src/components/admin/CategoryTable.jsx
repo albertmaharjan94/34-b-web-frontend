@@ -1,12 +1,44 @@
-import React from 'react'
-import { useAdminCategory } from '../../hooks/admin/useAdminCategory'
+import React, { useState } from 'react'
+import { useAdminCategory, useDeleteOneCategory } from '../../hooks/admin/useAdminCategory'
 import { getBackendImageUrl } from '../../utils/backend-image'
 import { Link } from 'react-router-dom'
+import DeleteModal from '../DeleteModal'
+
+function Welcome(props) {
+    return <h1>{props.name}</h1>
+}
+function NameCompoment({ name, age }) {
+    return <h1>{name} {age}</h1>
+}
+
 export default function CategoryTable() {
     const { categories, error, isPending } = useAdminCategory()
+    const deleteCategoryHook = useDeleteOneCategory()
+    const [deleteId, setDeleteId] = useState(null)
+
+    const handleDelete = () => {
+        deleteCategoryHook.mutate(
+            deleteId,
+            {
+                onSuccess: () => {
+                    setDeleteId(null)
+                }
+            }
+        )
+    }
 
     return (
         <div>
+            <Welcome name="Ram" />
+            <NameCompoment name="Shyam" age="20" />
+            <DeleteModal
+                isOpen={deleteId}
+                onClose={() => setDeleteId(null)}
+                onConfirm={handleDelete}
+                title="Delete Confirmation"
+                description="Are you sure you want to delete"
+            >
+            </DeleteModal>
             CategoryTable
             <table className='min-w-full table-auto'>
                 <thead>
@@ -32,6 +64,10 @@ export default function CategoryTable() {
                                     <Link to={"/admin/category/" + row._id + "/edit"}>
                                         <button>Edit</button>
                                     </Link>
+
+                                    <button onClick={
+                                        () => setDeleteId(row._id)
+                                    }>Delete</button>
                                 </td>
                             </tr>
                         )

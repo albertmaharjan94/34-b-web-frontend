@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { 
-    createOneCategoryService, getAllCategoryService, getOneCategoryService, updateOneCategoryService } from "../../services/admin/categoryService";
+import {
+    createOneCategoryService, getAllCategoryService,
+    getOneCategoryService, updateOneCategoryService, deleteOneCategoryService
+} from "../../services/admin/categoryService";
 import { toast } from "react-toastify";
 
 export const useAdminCategory = () => {
@@ -37,7 +39,7 @@ export const useGetOneCategory = (id) => {
         {
             queryKey: ["admin_category_detail"],
             queryFn: () => getOneCategoryService(id),
-            enabled: !!id, 
+            enabled: !!id,
             retry: false // default 3 retries
         }
     )
@@ -52,14 +54,30 @@ export const useUpdateOneCategory = () => {
     const queryClient = useQueryClient()
     return useMutation(
         {
-            mutationFn: ({id, data}) => 
+            mutationFn: ({ id, data }) =>
                 updateOneCategoryService(id, data),
             onSuccess: () => {
                 toast.success("Category updated")
                 queryClient.invalidateQueries(["admin_category"])
             },
-            onError: (err)=> {
-                toast.error(err. message || "Failed to update")
+            onError: (err) => {
+                toast.error(err.message || "Failed to update")
+            }
+        }
+    )
+}
+export const useDeleteOneCategory = () => {
+    const queryClient = useQueryClient()
+    return useMutation(
+        {
+            mutationFn: deleteOneCategoryService,
+            mutationKey: ["admin_category_delete"],
+            onSuccess: () => {
+                toast.success("Category Deleted")
+                queryClient.invalidateQueries(["admin_category"])
+            },
+            onError: (err) => {
+                toast.error(err.message || "Delete failed")
             }
         }
     )

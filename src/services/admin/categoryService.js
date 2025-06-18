@@ -1,5 +1,6 @@
 import {
-    getAllCategoryApi, createOneCategoryApi, getOneCategoryApi, updateOneCategoryApi
+    getAllCategoryApi, createOneCategoryApi, getOneCategoryApi, updateOneCategoryApi,
+    deleteOneCategoryApi
 } from "../../api/admin/categoryApi";
 
 export const getAllCategoryService = async () => {
@@ -32,5 +33,13 @@ export const updateOneCategoryService = async (id, data)=>{
         return response.data
     }catch(err){
         throw err.response?.data || { "message" : "Update failed"}
+    }
+}
+export const deleteOneCategoryService = async (id) => {
+    try{
+        const response = await deleteOneCategoryApi(id)
+        return response.data
+    }catch(err){
+        throw err.response?.data || { "message": "Delete failed" }
     }
 }
